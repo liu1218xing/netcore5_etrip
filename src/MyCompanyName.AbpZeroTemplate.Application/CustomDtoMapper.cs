@@ -32,6 +32,8 @@ using MyCompanyName.AbpZeroTemplate.MultiTenancy.Payments.Dto;
 using MyCompanyName.AbpZeroTemplate.Notifications.Dto;
 using MyCompanyName.AbpZeroTemplate.Organizations.Dto;
 using MyCompanyName.AbpZeroTemplate.Sessions.Dto;
+using MyCompanyName.AbpZeroTemplate.Tasks;
+using MyCompanyName.AbpZeroTemplate.Tasks.Dto;
 
 namespace MyCompanyName.AbpZeroTemplate
 {
@@ -42,6 +44,7 @@ namespace MyCompanyName.AbpZeroTemplate
             //Inputs
             configuration.CreateMap<CheckboxInputType, FeatureInputTypeDto>();
             configuration.CreateMap<SingleLineStringInputType, FeatureInputTypeDto>();
+
             configuration.CreateMap<ComboboxInputType, FeatureInputTypeDto>();
             configuration.CreateMap<IInputType, FeatureInputTypeDto>()
                 .Include<CheckboxInputType, FeatureInputTypeDto>()
@@ -120,7 +123,15 @@ namespace MyCompanyName.AbpZeroTemplate
             
             //OrganizationUnit
             configuration.CreateMap<OrganizationUnit, OrganizationUnitDto> ();
- 
+
+            //定义单向映射
+            configuration.CreateMap<CreateSimpleTaskInput, SimpleTask>();
+            configuration.CreateMap<UpdateSimpleTaskInput, SimpleTask>();
+            configuration.CreateMap<SimpleTaskDto, UpdateSimpleTaskInput>();
+
+            //自定义映射
+            var taskDtoMapper = configuration.CreateMap<SimpleTask, SimpleTaskDto>();
+            taskDtoMapper.ForMember(dto => dto.AssignedPersonName, map => map.MapFrom(m => m.AssignedPerson.FullName));
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
         }
     }
