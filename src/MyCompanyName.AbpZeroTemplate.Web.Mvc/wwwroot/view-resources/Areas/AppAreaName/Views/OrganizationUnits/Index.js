@@ -2,7 +2,7 @@
     $(function () {
 
         var _organizationUnitService = abp.services.app.organizationUnit;
-
+        
         var _permissions = {
             manageOrganizationTree: abp.auth.hasPermission('Pages.Administration.OrganizationUnits.ManageOrganizationTree'),
             manageMembers: abp.auth.hasPermission('Pages.Administration.OrganizationUnits.ManageMembers')

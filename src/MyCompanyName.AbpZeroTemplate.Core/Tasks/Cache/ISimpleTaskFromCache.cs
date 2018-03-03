@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MyCompanyName.AbpZeroTemplate.Tasks.Cache
 {
-    public interface ISimpleTasksCache
+   
+    public interface ISimpleTaskFromCache
     {
         SimpleTaskCacheItem GetTaskFromCacheById(int taskId);
     }

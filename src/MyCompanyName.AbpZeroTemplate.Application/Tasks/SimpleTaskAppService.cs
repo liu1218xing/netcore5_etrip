@@ -1,14 +1,39 @@
-﻿using Abp.Domain.Repositories;
+﻿using Abp.Collections.Extensions;
+using Abp.Domain.Repositories;
 using Abp.Events.Bus;
+using Abp.Extensions;
 using Abp.Net.Mail.Smtp;
 using Abp.Notifications;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using MyCompanyName.AbpZeroTemplate.Authorization.Users;
+using MyCompanyName.AbpZeroTemplate.Tasks.Cache;
+using MyCompanyName.AbpZeroTemplate.Tasks.Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
+using Abp.Linq.Extensions;
+using Abp.Application.Services.Dto;
+using Abp.AutoMapper;
+using Abp.Authorization;
+using MyCompanyName.AbpZeroTemplate.Authorization;
+using Abp.Runtime.Session;
+//using System.Linq;
+//using System.Threading.Tasks;
+//using Abp.Application.Services.Dto;
+//using Abp.Authorization;
+//using Abp.Authorization.Users;
+//using Abp.Domain.Repositories;
+//using Abp.Linq.Extensions;
+//using Abp.Organizations;
+//using MyCompanyName.AbpZeroTemplate.Authorization;
+//using MyCompanyName.AbpZeroTemplate.Organizations.Dto;
+//using System.Linq.Dynamic.Core;
+//using Abp.Extensions;
+//using Microsoft.EntityFrameworkCore;
 
 namespace MyCompanyName.AbpZeroTemplate.Tasks
 {
@@ -26,21 +51,21 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
 
         private readonly IRepository<SimpleTask> _taskRepository;
         private readonly IRepository<User, long> _userRepository;
-        private readonly ITaskManager _taskManager;
-        private readonly ISimpleTaskCacheItem _taskCache;
+        private readonly ISimpleTaskManager _taskManager;
+        private readonly ISimpleTaskCache _taskCache;
         private readonly IEventBus _eventBus;
 
         /// <summary>
         ///     In constructor, we can get needed classes/interfaces.
         ///     They are sent here by dependency injection system automatically.
         /// </summary>
-        public TaskAppService(
+        public SimpleTaskAppService(
             IRepository<SimpleTask> taskRepository,
             IRepository<User, long> userRepository,
             ISmtpEmailSender smtpEmailSender,
             INotificationPublisher notificationPublisher,
-            ISimpleTaskCacheItem taskCache,
-            ITaskManager taskManager,
+            ISimpleTaskCache taskCache,
+            ISimpleTaskManager taskManager,
             IEventBus eventBus)
         {
             _taskRepository = taskRepository;
@@ -60,7 +85,7 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
             return Mapper.Map<IList<SimpleTaskDto>>(tasks);
         }
 
-        public GetTasksOutput GetTasks(GetTasksInput input)
+        public GetSimpleTasksOutput GetTasks(GetSimpleTasksInput input)
         {
             var query = _taskRepository.GetAll().Include(t => t.AssignedPerson)
                 .WhereIf(input.State.HasValue, t => t.State == input.State.Value)
@@ -76,14 +101,14 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
             var taskList = query.ToList();
 
             //Used AutoMapper to automatically convert List<Task> to List<TaskDto>.
-            return new GetTasksOutput
+            return new GetSimpleTasksOutput
             {
-                Tasks = Mapper.Map<List<TaskDto>>(taskList)
+                Tasks = Mapper.Map<List<SimpleTaskDto>>(taskList)
             };
         }
 
 
-        public PagedResultDto<TaskDto> GetPagedTasks(GetTasksInput input)
+        public PagedResultDto<SimpleTaskDto> GetPagedTasks(GetSimpleTasksInput input)
         {
             //初步过滤
             var query = _taskRepository.GetAll().Include(t => t.AssignedPerson)
@@ -102,32 +127,32 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
             //ABP提供了扩展方法PageBy分页方式
             var taskList = query.PageBy(input).ToList();
 
-            return new PagedResultDto<TaskDto>(tasksCount, taskList.MapTo<List<TaskDto>>());
+            return new PagedResultDto<SimpleTaskDto>(tasksCount, taskList.MapTo<List<SimpleTaskDto>>());
         }
 
-        public async Task<TaskDto> GetTaskByIdAsync(int taskId)
+        public async Task<SimpleTaskDto> GetTaskByIdAsync(int taskId)
         {
             //Called specific GetAllWithPeople method of task repository.
             var task = await _taskRepository.GetAsync(taskId);
 
             //Used AutoMapper to automatically convert List<Task> to List<TaskDto>.
-            return task.MapTo<TaskDto>();
+            return task.MapTo<SimpleTaskDto>();
         }
 
-        public TaskDto GetTaskById(int taskId)
+        public SimpleTaskDto GetTaskById(int taskId)
         {
             var task = _taskRepository.Get(taskId);
 
-            return task.MapTo<TaskDto>();
+            return task.MapTo<SimpleTaskDto>();
         }
 
-        public void UpdateTask(UpdateTaskInput input)
+        public void UpdateTask(UpdateSimpleTaskInput input)
         {
             //We can use Logger, it's defined in ApplicationService base class.
             Logger.Info("Updating a task for input: " + input);
 
             //获取是否有权限
-            bool canAssignTaskToOther = PermissionChecker.IsGranted(PermissionNames.Pages_Tasks_AssignPerson);
+            bool canAssignTaskToOther = PermissionChecker.IsGranted(AppPermissions.Pages_SimpleTasks_AssignPerson);
             //如果任务已经分配且未分配给自己，且不具有分配任务权限，则抛出异常
             if (input.AssignedPersonId.HasValue && input.AssignedPersonId.Value != AbpSession.GetUserId() &&
                 !canAssignTaskToOther)
@@ -135,7 +160,7 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
                 throw new AbpAuthorizationException("没有分配任务给他人的权限！");
             }
 
-            var updateTask = Mapper.Map<Task>(input);
+            var updateTask = Mapper.Map<SimpleTask>(input);
             var user = _userRepository.Get(input.AssignedPersonId.Value);
             //先执行分配任务
             _taskManager.AssignTaskToPerson(updateTask, user);
@@ -145,7 +170,7 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
 
         }
 
-        public void AssignTaskToPerson(AssignTaskToPersonInput input)
+        public void AssignTaskToPerson(AssignSimpleTaskToPersonInput input)
         {
             var task = _taskRepository.Get(input.TaskId);
             var user = _userRepository.Get(input.UserId);
@@ -157,16 +182,16 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
 
         }
 
-        public int CreateTask(CreateTaskInput input)
+        public int CreateTask(CreateSimpleTaskInput input)
         {
             //We can use Logger, it's defined in ApplicationService class.
             Logger.Info("Creating a task for input: " + input);
 
             //判断用户是否有权限
             if (input.AssignedPersonId.HasValue && input.AssignedPersonId.Value != AbpSession.GetUserId())
-                PermissionChecker.Authorize(PermissionNames.Pages_Tasks_AssignPerson);
+                PermissionChecker.Authorize(AppPermissions.Pages_SimpleTasks_AssignPerson);
 
-            var task = Mapper.Map<Task>(input);
+            var task = Mapper.Map<SimpleTask>(input);
 
             int result = _taskRepository.InsertAndGetId(task);
 
@@ -193,7 +218,7 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
             return result;
         }
 
-        [AbpAuthorize(PermissionNames.Pages_Tasks_Delete)]
+        [AbpAuthorize(AppPermissions.Pages_SimpleTasks_Delete)]
         public void DeleteTask(int taskId)
         {
             var task = _taskRepository.Get(taskId);

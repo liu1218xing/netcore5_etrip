@@ -41,6 +41,12 @@
 
         public const string Pages_Administration_UiCustomization = "Pages.Administration.UiCustomization";
 
+        public const string Pages_SimpleTasks = "Pages.SimpleTasks";
+
+        public const string Pages_SimpleTasks_AssignPerson = "Pages.SimpleTasks.AssignPerson";
+
+        public const string Pages_SimpleTasks_Delete = "Pages.SimpleTasks.Delete";
+
         //TENANT-SPECIFIC PERMISSIONS
 
         public const string Pages_Tenant_Dashboard = "Pages.Tenant.Dashboard";
