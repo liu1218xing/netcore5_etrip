@@ -51,6 +51,12 @@ namespace MyCompanyName.AbpZeroTemplate.Authorization
             languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_Delete, L("DeletingLanguages"));
             languages.CreateChildPermission(AppPermissions.Pages_Administration_Languages_ChangeTexts, L("ChangingTexts"));
 
+            var simpleTasks = administration.CreateChildPermission(AppPermissions.Pages_Administration_SimpleTasks, L("SimpleTasks"));
+            simpleTasks.CreateChildPermission(AppPermissions.Pages_Administration_SimpleTasks_Create, L("CreateNewSimpleTask"));
+            simpleTasks.CreateChildPermission(AppPermissions.Pages_Administration_SimpleTasks_Edit, L("EditSimpleTask"));
+            simpleTasks.CreateChildPermission(AppPermissions.Pages_Administration_SimpleTasks_Delete, L("DeleteSimpleTask"));
+            
+
             administration.CreateChildPermission(AppPermissions.Pages_Administration_AuditLogs, L("AuditLogs"));
 
             var organizationUnits = administration.CreateChildPermission(AppPermissions.Pages_Administration_OrganizationUnits, L("OrganizationUnits"));
@@ -84,6 +90,8 @@ namespace MyCompanyName.AbpZeroTemplate.Authorization
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Maintenance, L("Maintenance"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
             administration.CreateChildPermission(AppPermissions.Pages_Administration_HangfireDashboard, L("HangfireDashboard"), multiTenancySides: _isMultiTenancyEnabled ? MultiTenancySides.Host : MultiTenancySides.Tenant);
             administration.CreateChildPermission(AppPermissions.Pages_Administration_Host_Dashboard, L("Dashboard"), multiTenancySides: MultiTenancySides.Host);
+
+           
         }
 
         private static ILocalizableString L(string name)

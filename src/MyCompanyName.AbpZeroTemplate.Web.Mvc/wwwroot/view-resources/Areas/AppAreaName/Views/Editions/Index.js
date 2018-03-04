@@ -39,7 +39,9 @@
         abp.event.on('app.createOrEditEditionModalSaved', function () {
             getEditions();
         });
-
+        _editionService.getEditions().done(function (data) {
+            abp.log.debug(data);
+        });
         var dataTable = _$editionsTable.DataTable({
             paging: false,
             listAction: {

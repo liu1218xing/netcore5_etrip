@@ -27,6 +27,7 @@ namespace MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Startup
                     icon: "flaticon-list-3",
                     requiredPermissionName: AppPermissions.Pages_Tenants
                     )
+
                 ).AddItem(new MenuItemDefinition(
                         AppAreaNamePageNames.Host.Editions,
                         L("Editions"),
@@ -34,6 +35,13 @@ namespace MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Startup
                         icon: "flaticon-app",
                         requiredPermissionName: AppPermissions.Pages_Editions
                     )
+                 //).AddItem(new MenuItemDefinition(
+                 //       AppAreaNamePageNames.Common.SimpleTasks,
+                 //       L("SimpleTasks"),
+                 //       url: "AppAreaName/SimpleTasks",
+                 //       icon: "flaticon-app",
+                 //       requiredPermissionName: AppPermissions.Pages_SimpleTasks
+                 //   )
                 ).AddItem(new MenuItemDefinition(
                         AppAreaNamePageNames.Tenant.Dashboard,
                         L("Dashboard"),
@@ -52,6 +60,20 @@ namespace MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Startup
                             icon: "flaticon-map",
                             requiredPermissionName: AppPermissions.Pages_Administration_OrganizationUnits
                         )
+                     //).AddItem(new MenuItemDefinition(
+                     //       AppAreaNamePageNames.Common.Areas,
+                     //       L("Areas"),
+                     //       url: "AppAreaName/Areas",
+                     //       icon: "flaticon-suitcase",
+                     //       requiredPermissionName: AppPermissions.Pages_Administration_Areas
+                     //   )
+                    ).AddItem(new MenuItemDefinition(
+                           AppAreaNamePageNames.Common.SimpleTasks,
+                           L("SimpleTask"),
+                           url: "AppAreaName/SimpleTasks",
+                           icon: "flaticon-suitcase",
+                           requiredPermissionName: AppPermissions.Pages_Administration_SimpleTasks
+                       )
                     ).AddItem(new MenuItemDefinition(
                             AppAreaNamePageNames.Common.Roles,
                             L("Roles"),

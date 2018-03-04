@@ -12,6 +12,10 @@
             public const string Languages = "Administration.Languages";
             public const string DemoUiComponents = "Administration.DemoUiComponents";
             public const string UiCustomization = "Administration.UiCustomization";
+
+            public const string SimpleTasks = "Administration.SimpleTasks";
+
+            public const string Areas = "Administration.Areas";
         }
 
         public static class Host
@@ -29,5 +33,6 @@
             public const string Settings = "Administration.Settings.Tenant";
             public const string SubscriptionManagement = "Administration.SubscriptionManagement.Tenant";
         }
+        
     }
 }

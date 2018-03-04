@@ -41,11 +41,11 @@
 
         public const string Pages_Administration_UiCustomization = "Pages.Administration.UiCustomization";
 
-        public const string Pages_SimpleTasks = "Pages.SimpleTasks";
+        public const string Pages_Administration_Areas = "Pages.Administration.Areas";
+        public const string Pages_Administration_Areas_Create = "Pages.Administration.Areas.Create";
+        public const string Pages_Administration_Areas_Edit = "Pages.Administration.Areas.Edit";
+        public const string Pages_Administration_Areas_Delete = "Pages.Administration.Areas.Delete";
 
-        public const string Pages_SimpleTasks_AssignPerson = "Pages.SimpleTasks.AssignPerson";
-
-        public const string Pages_SimpleTasks_Delete = "Pages.SimpleTasks.Delete";
 
         //TENANT-SPECIFIC PERMISSIONS
 
@@ -61,6 +61,14 @@
         public const string Pages_Editions_Create = "Pages.Editions.Create";
         public const string Pages_Editions_Edit = "Pages.Editions.Edit";
         public const string Pages_Editions_Delete = "Pages.Editions.Delete";
+
+        public const string Pages_Administration_SimpleTasks = "Pages.Administration.SimpleTasks";
+        public const string Pages_Administration_SimpleTasks_Create = "Pages.Administration.SimpleTasks.Create";
+        public const string Pages_Administration_SimpleTasks_Edit = "Pages.Administration.SimpleTasks.Edit";
+
+        public const string Pages_Administration_SimpleTasks_AssignPerson = "Pages.Administration.SimpleTasks.AssignPerson";
+
+        public const string Pages_Administration_SimpleTasks_Delete = "Pages.Administration.SimpleTasks.Delete";
 
         public const string Pages_Tenants = "Pages.Tenants";
         public const string Pages_Tenants_Create = "Pages.Tenants.Create";

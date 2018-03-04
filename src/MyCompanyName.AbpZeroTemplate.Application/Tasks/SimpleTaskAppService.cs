@@ -50,6 +50,7 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
         //These members set in constructor using constructor injection.
 
         private readonly IRepository<SimpleTask> _taskRepository;
+                         
         private readonly IRepository<User, long> _userRepository;
         private readonly ISimpleTaskManager _taskManager;
         private readonly ISimpleTaskCache _taskCache;
@@ -77,12 +78,24 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
             _eventBus = eventBus;
         }
 
-        
 
-        public IList<SimpleTaskDto> GetAllTasks()
+        //public async Task<ListResultDto<EditionListDto>> GetEditions()
+        //{
+        //    var editions = ObjectMapper.Map<List<SubscribableEdition>>(await _editionManager.Editions.ToListAsync())
+        //        .OrderBy(e => e.MonthlyPrice);
+        //    return new ListResultDto<EditionListDto>(
+        //        ObjectMapper.Map<List<EditionListDto>>(editions)
+        //        );
+        //}
+
+        public async Task<ListResultDto<SimpleTaskDto>> GetAllTasks()
         {
-            var tasks = _taskRepository.GetAll().OrderByDescending(t => t.CreationTime).ToList();
-            return Mapper.Map<IList<SimpleTaskDto>>(tasks);
+            var tasks = await _taskRepository.GetAll().OrderByDescending(t => t.CreationTime).ToListAsync();
+            //return Mapper.Map<IList<SimpleTaskDto>>(tasks);
+            return new ListResultDto<SimpleTaskDto>(
+                ObjectMapper.Map<List<SimpleTaskDto>>(tasks)
+                );
+
         }
 
         public GetSimpleTasksOutput GetTasks(GetSimpleTasksInput input)
@@ -152,7 +165,7 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
             Logger.Info("Updating a task for input: " + input);
 
             //获取是否有权限
-            bool canAssignTaskToOther = PermissionChecker.IsGranted(AppPermissions.Pages_SimpleTasks_AssignPerson);
+            bool canAssignTaskToOther = PermissionChecker.IsGranted(AppPermissions.Pages_Administration_SimpleTasks_Create);
             //如果任务已经分配且未分配给自己，且不具有分配任务权限，则抛出异常
             if (input.AssignedPersonId.HasValue && input.AssignedPersonId.Value != AbpSession.GetUserId() &&
                 !canAssignTaskToOther)
@@ -189,7 +202,7 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
 
             //判断用户是否有权限
             if (input.AssignedPersonId.HasValue && input.AssignedPersonId.Value != AbpSession.GetUserId())
-                PermissionChecker.Authorize(AppPermissions.Pages_SimpleTasks_AssignPerson);
+                PermissionChecker.Authorize(AppPermissions.Pages_Administration_SimpleTasks_Create);
 
             var task = Mapper.Map<SimpleTask>(input);
 
@@ -218,7 +231,7 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
             return result;
         }
 
-        [AbpAuthorize(AppPermissions.Pages_SimpleTasks_Delete)]
+        [AbpAuthorize(AppPermissions.Pages_Administration_SimpleTasks_Delete)]
         public void DeleteTask(int taskId)
         {
             var task = _taskRepository.Get(taskId);

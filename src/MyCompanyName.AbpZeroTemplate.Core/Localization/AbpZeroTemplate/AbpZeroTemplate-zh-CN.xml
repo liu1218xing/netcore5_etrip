@@ -1,6 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="zh-CN">
   <texts>
+    <text name="SimpleTask" value="任务" />
+    <text name="SimpleTasks" value="任务列表" />
+    <text name="SimpleTasksHeaderInfo" value="管理当前应用的任务" />
+    <text name="CreateNewSimpleTask" value="创建新的任务" />
+    <text name="EditSimpleTask" value="编辑任务" />
+    <text name="DeleteSimpleTask" value="编辑任务" />
+    <text name="SimpleTaskProperties" value="任务属性列表" />
+    <text name="SimpleTaskName" value="任务名称" />
+    <text name="SimpleTaskTitle" value="任务名称" />
+    <text name="SimpleTaskState" value="任务状态" />
+    <text name="SimpleTaskDescription" value="任务描述" />
+    <text name="SimpleTaskAssignedPersonName" value="任务分配" />
+    
     <text name="HomePage" value="主页" />
     <text name="AboutUs" value="关于我们" />
     <text name="Administration" value="管理" />

@@ -26,7 +26,8 @@ namespace MyCompanyName.AbpZeroTemplate.Tasks
 
         
 
-        IList<SimpleTaskDto> GetAllTasks();
+        //IList<SimpleTaskDto> GetAllTasks();
+        Task<ListResultDto<SimpleTaskDto>> GetAllTasks();
     }
     
 }

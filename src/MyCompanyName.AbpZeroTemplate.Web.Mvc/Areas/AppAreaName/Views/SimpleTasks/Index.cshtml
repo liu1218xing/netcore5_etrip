@@ -1,8 +1,12 @@
-﻿
-@model MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.Tasks.IndexViewModel;
+﻿@using System.Threading.Tasks
+@using MyCompanyName.AbpZeroTemplate.Authorization
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Startup
 @{
-    ViewBag.Title = L("TaskList");
-    ViewBag.ActiveMenu = "TaskList"; //Matches with the menu name in SimpleTaskAppNavigationProvider to highlight the menu item
+    ViewBag.CurrentPageName = AppAreaNamePageNames.Common.SimpleTasks;
+}
+@section Styles
+    {
+    <link rel="stylesheet" abp-href="/view-resources/Areas/AppAreaName/Views/_Bundles/host-list.css" asp-append-version="true" />
 }
 
 @section Scripts
@@ -10,40 +14,44 @@
     <script abp-src="/view-resources/Areas/AppAreaName/Views/SimpleTasks/Index.js" asp-append-version="true"></script>
 }
 
-
-<h2>
-    @L("TaskList")
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add">Create Task</button>
-    <a class="btn btn-primary" data-toggle="modal" href="@Url.Action("RemoteCreate")" data-target="#modal" role="button">（Create Task）使用Remote方式调用Modal进行展现</a>
-    <a class="btn btn-success" href="@Url.Action("PagedList")" role="button">分页展示</a>
-
-    <button type="button" class="btn btn-info" onclick="notifyUser();">通知未完成任务的用户</button>
-    <!--任务清单按照状态过滤的下拉框-->
-    <span class="pull-right">
-        @Html.DropDownListFor(
-                 model => model.SelectedTaskState,
-                 Model.GetTaskStateSelectListItems(),
-                 new
-                 {
-                     @class = "form-control select2",
-                     id = "TaskStateCombobox"
-                 })
-    </span>
-</h2>
-<!--任务清单展示-->
-<div class="row" id="taskList">
-    @{ Html.RenderPartial("_List", Model.Tasks); }
-</div>
-<!--通过初始加载页面的时候提前将创建任务模态框加载进来-->
-@*@Html.Action("Create")*@
-<!--编辑任务模态框通过ajax动态填充到此div中-->
-<div id="edit">
-</div>
-<!--Remote方式弹出创建任务模态框-->
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="createTask" data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+<div class="m-subheader ">
+    <div class="row align-items-center">
+        <div class="mr-auto col-sm-12 col-md-6">
+            <h3 class="m-subheader__title m-subheader__title--separator">
+                <span>@L("SimpleTasks")</span>
+            </h3>
+            <span class="m-section__sub">
+                @L("SimpleTasksHeaderInfo")
+            </span>
+        </div>
+        <div class="col-sm-12 col-md-6 text-right">
+            @if (IsGranted(AppPermissions.Pages_Administration_SimpleTasks))
+            {
+                <button id="CreateNewSimpleTaskButton" class="btn btn-primary blue"><i class="fa fa-plus"></i> @L("CreateNewSimpleTask")</button>
+            }
         </div>
     </div>
 </div>
 
+
+<div class="m-content">
+    <div class="m-portlet m-portlet--mobile">
+        <div class="m-portlet__body">
+            <div class="row align-items-center">
+                <table id="SimpleTasksTable" class="display table table-striped table-bordered table-hover dt-responsive nowrap">
+                    <thead>
+                        <tr>
+                            <th>@L("Actions")</th>
+                            <th>@L("SimpleTaskTitle")</th>
+                            <th>@L("SimpleTaskDescription")</th>
+                            <th>@L("SimpleTaskAssignedPersonName")</th>
+                            <th>@L("SimpleTaskState")</th>
+                            <th>@L("CreationTime")</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

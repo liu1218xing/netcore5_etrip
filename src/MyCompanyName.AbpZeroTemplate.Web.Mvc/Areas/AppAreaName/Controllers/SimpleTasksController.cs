@@ -19,7 +19,7 @@ using X.PagedList;
 namespace MyCompanyName.AbpZeroTemplate.Web.Mvc.Areas.AppAreaName.Controllers
 {
     [Area("AppAreaName")]
-    [AbpMvcAuthorize(AppPermissions.Pages_SimpleTasks)]
+    [AbpMvcAuthorize(AppPermissions.Pages_Administration_SimpleTasks)]
     public class SimpleTasksController : AbpZeroTemplateControllerBase
     {
         private readonly ISimpleTaskAppService _taskAppService;
