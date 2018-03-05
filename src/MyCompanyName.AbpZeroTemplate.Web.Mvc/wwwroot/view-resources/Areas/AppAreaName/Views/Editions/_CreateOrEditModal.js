@@ -1,5 +1,5 @@
 ﻿(function () {
-
+  
     app.modals.CreateOrEditEditionModal = function () {
 
         var _modalManager;

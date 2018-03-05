@@ -1,0 +1,23 @@
+﻿@using Abp.Organizations
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.Common.Modals
+@using MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Models.Areas
+@model CreateAreaModalViewModel
+@Html.Partial("~/Areas/AppAreaName/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("NewOrganizationUnit")))
+<div class="modal-body">
+    <form name="AreaForm" role="form" novalidate class="form-validation">
+        <input type="hidden" name="ParentAreaId" value="@Model.ParentAreaId" />
+        <div class="form-group">
+            <label>@L("AreaId")</label>
+            <input class="form-control" type="text" name="AreaId" required>
+        </div>
+        <div class="form-group">
+            <label>@L("AreaName")</label>
+            <input class="form-control" type="text" name="AreaName" required>
+        </div>
+        <div class="form-group">
+            <label>@L("AreaDescription")</label>
+            <input class="form-control" type="text" name="AreaDescription" required>
+        </div>
+    </form>
+</div>
+@Html.Partial("~/Areas/AppAreaName/Views/Common/Modals/_ModalFooterWithSaveAndCancel.cshtml")
