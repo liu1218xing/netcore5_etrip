@@ -60,13 +60,13 @@ namespace MyCompanyName.AbpZeroTemplate.Web.Areas.AppAreaName.Startup
                             icon: "flaticon-map",
                             requiredPermissionName: AppPermissions.Pages_Administration_OrganizationUnits
                         )
-                     //).AddItem(new MenuItemDefinition(
-                     //       AppAreaNamePageNames.Common.Areas,
-                     //       L("Areas"),
-                     //       url: "AppAreaName/Areas",
-                     //       icon: "flaticon-suitcase",
-                     //       requiredPermissionName: AppPermissions.Pages_Administration_Areas
-                     //   )
+                     ).AddItem(new MenuItemDefinition(
+                            AppAreaNamePageNames.Common.Areas,
+                            L("Areas"),
+                            url: "AppAreaName/Areas",
+                            icon: "flaticon-suitcase",
+                            requiredPermissionName: AppPermissions.Pages_Administration_Areas
+                        )
                     ).AddItem(new MenuItemDefinition(
                            AppAreaNamePageNames.Common.SimpleTasks,
                            L("SimpleTask"),

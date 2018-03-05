@@ -18,7 +18,7 @@
             }
 
             var organizationUnit = _$form.serializeFormToObject();
-
+            abp.log.debug(organizationUnit);
             _modalManager.setBusy(true);
             _organizationUnitService.createOrganizationUnit(
                 organizationUnit

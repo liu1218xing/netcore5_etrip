@@ -116,6 +116,7 @@
             }
 
             var edition = $editionInformationForm.serializeFormToObject();
+            abp.log.debug(edition);
 
             _modalManager.setBusy(true);
             editionService.createOrUpdateEdition({

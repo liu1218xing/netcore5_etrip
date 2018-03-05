@@ -55,7 +55,11 @@ namespace MyCompanyName.AbpZeroTemplate.Authorization
             simpleTasks.CreateChildPermission(AppPermissions.Pages_Administration_SimpleTasks_Create, L("CreateNewSimpleTask"));
             simpleTasks.CreateChildPermission(AppPermissions.Pages_Administration_SimpleTasks_Edit, L("EditSimpleTask"));
             simpleTasks.CreateChildPermission(AppPermissions.Pages_Administration_SimpleTasks_Delete, L("DeleteSimpleTask"));
-            
+
+            var areas = administration.CreateChildPermission(AppPermissions.Pages_Administration_Areas, L("Areas"));
+            areas.CreateChildPermission(AppPermissions.Pages_Administration_Areas_Create, L("CreateNewArea"));
+            areas.CreateChildPermission(AppPermissions.Pages_Administration_Areas_Edit, L("EditArea"));
+            areas.CreateChildPermission(AppPermissions.Pages_Administration_Areas_Delete, L("DeleteArea"));
 
             administration.CreateChildPermission(AppPermissions.Pages_Administration_AuditLogs, L("AuditLogs"));
 

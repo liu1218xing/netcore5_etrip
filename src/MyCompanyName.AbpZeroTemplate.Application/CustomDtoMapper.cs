@@ -8,6 +8,8 @@ using Abp.Notifications;
 using Abp.Organizations;
 using Abp.UI.Inputs;
 using AutoMapper;
+using MyCompanyName.AbpZeroTemplate.Areas;
+using MyCompanyName.AbpZeroTemplate.Areas.Dto;
 using MyCompanyName.AbpZeroTemplate.Auditing.Dto;
 using MyCompanyName.AbpZeroTemplate.Authorization.Accounts.Dto;
 using MyCompanyName.AbpZeroTemplate.Authorization.Permissions.Dto;
@@ -133,6 +135,9 @@ namespace MyCompanyName.AbpZeroTemplate
             var taskDtoMapper = configuration.CreateMap<SimpleTask, SimpleTaskDto>();
             taskDtoMapper.ForMember(dto => dto.AssignedPersonName, map => map.MapFrom(m => m.AssignedPerson.FullName));
             /* ADD YOUR OWN CUSTOM AUTOMAPPER MAPPINGS HERE */
+
+            //area
+            configuration.CreateMap<Area, AreaListDto>();
         }
     }
 }

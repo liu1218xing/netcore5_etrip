@@ -1,6 +1,7 @@
 ﻿using Abp.IdentityServer4;
 using Abp.Zero.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MyCompanyName.AbpZeroTemplate.Areas;
 using MyCompanyName.AbpZeroTemplate.Authorization.Roles;
 using MyCompanyName.AbpZeroTemplate.Authorization.Users;
 using MyCompanyName.AbpZeroTemplate.Chat;
@@ -33,6 +34,8 @@ namespace MyCompanyName.AbpZeroTemplate.EntityFrameworkCore
         public virtual DbSet<Invoice> Invoices { get; set; }
 
         public DbSet<PersistedGrantEntity> PersistedGrants { get; set; }
+
+        public virtual DbSet<Area> Areas { get; set; }
 
         public AbpZeroTemplateDbContext(DbContextOptions<AbpZeroTemplateDbContext> options)
             : base(options)
