@@ -12,6 +12,8 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
     {
         Task<ListResultDto<AreaListDto>> GetAreas();
 
+        Task<ListResultDto<AreaListDto>> GetAllAreas();
+
         Task CreateOrUpdateArea(CreateAreaInput input);
 
         Task DeleteEdition(EntityDto input);

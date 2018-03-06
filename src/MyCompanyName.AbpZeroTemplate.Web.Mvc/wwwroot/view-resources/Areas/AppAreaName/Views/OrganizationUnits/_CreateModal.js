@@ -16,7 +16,7 @@
             if (!_$form.valid()) {
                 return;
             }
-
+            abp.log.debug(_organizationUnitService.createOrganizationUnit);
             var organizationUnit = _$form.serializeFormToObject();
             abp.log.debug(organizationUnit);
             _modalManager.setBusy(true);

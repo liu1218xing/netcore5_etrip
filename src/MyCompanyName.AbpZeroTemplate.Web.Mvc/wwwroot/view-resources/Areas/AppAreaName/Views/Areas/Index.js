@@ -39,7 +39,8 @@
         abp.event.on('app.createAreaModalSaved', function () {
             getAreas();
         });
-        abp.log.debug(_AreaService);
+        abp.log.debug("-----------------allarea---");
+        abp.log.debug(_AreaService.getAllAreas);
         _AreaService.getAreas().done(function (data) {
             abp.log.debug(data);
         });
@@ -47,7 +48,7 @@
         var dataTable = _$AreasTable.DataTable({
             paging: false,
             listAction: {
-                ajaxFunction: _AreaService.getAreas
+                ajaxFunction: _AreaService.getAllAreas
             },
             columnDefs: [
                 {
