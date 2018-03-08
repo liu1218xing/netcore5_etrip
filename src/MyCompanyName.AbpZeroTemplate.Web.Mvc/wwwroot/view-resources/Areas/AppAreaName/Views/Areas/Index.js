@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//areas
+(function () {
     $(function () {
 
         var _$AreasTable = $('#AreasTable');
@@ -67,6 +68,7 @@
                                     return _permissions.edit;
                                 },
                                 action: function (data) {
+                                    abp.log.debug(data);
                                     _createModal.open({ id: data.record.id });
                                 }
                             }, {

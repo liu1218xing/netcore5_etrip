@@ -11,13 +11,14 @@ using System.Threading.Tasks;
 
 namespace MyCompanyName.AbpZeroTemplate.Areas
 {
-    public class Area : FullAuditedEntity
+    public class Area : FullAuditedEntity, IMayHaveTenant
     {
         [Required]
         public long AreaId { get; set; }
         [Required]
         public string AreaName { get; set; }
         public string AreaDescription { get; set; }
-        public long? ParentAreaId { get; set; }        
+        public long? ParentAreaId { get; set; }
+        public int? TenantId { get; set; }
     }
 }

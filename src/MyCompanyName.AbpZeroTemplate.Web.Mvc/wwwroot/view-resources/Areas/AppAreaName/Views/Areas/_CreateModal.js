@@ -28,10 +28,11 @@
             _modalManager.setBusy(true);
             _areaService.createOrUpdateArea(
                 area
-            ).done(function (result) {
+            ).done(function () {
                 abp.notify.info(app.localize('SavedSuccessfully'));
-                _modalManager.setResult(result);
+                
                 _modalManager.close();
+                abp.event.trigger('app.createAreaModalSaved');
             }).always(function () {
                 _modalManager.setBusy(false);
             });

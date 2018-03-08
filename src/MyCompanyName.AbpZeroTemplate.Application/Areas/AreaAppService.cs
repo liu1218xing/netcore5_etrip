@@ -21,7 +21,7 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
 
         public async Task CreateOrUpdateArea(CreateAreaInput input)
         {
-            var areainput = new Area() { AreaId = input.AreaId,AreaName =input.AreaName,AreaDescription = input.AreaDescription};
+            var areainput = new Area() { AreaId = input.AreaId,AreaName =input.AreaName,AreaDescription = input.AreaDescription,TenantId= AbpSession.TenantId};
             //var area = ObjectMapper.Map<Area>(input);
             //var organizationUnit = new Area(input.AreaId,inpu);
             Logger.Info("Creating a new area with description: " + input.AreaId+input.ToString());

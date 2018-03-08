@@ -1,4 +1,5 @@
-﻿(function () {
+﻿//roles
+(function () {
     $(function () {
 
         var _$rolesTable = $('#RolesTable');
