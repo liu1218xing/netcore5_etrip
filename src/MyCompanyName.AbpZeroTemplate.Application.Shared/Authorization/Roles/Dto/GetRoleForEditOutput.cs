@@ -6,8 +6,7 @@ namespace MyCompanyName.AbpZeroTemplate.Authorization.Roles.Dto
 {
     public class GetRoleForEditOutput
     {
-        public 
-            Role { get; set; }
+        public RoleEditDto Role { get; set; }
 
         public List<FlatPermissionDto> Permissions { get; set; }
 

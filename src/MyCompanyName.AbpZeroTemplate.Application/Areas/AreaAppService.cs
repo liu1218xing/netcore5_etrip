@@ -13,18 +13,36 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
     {
         public ILogger Logger { get; set; }
         private readonly IAreaManager _areaManager;
+        
         public AreaAppService(IAreaManager areaManager)
         {
             _areaManager = areaManager;
         }
-        
 
-        public async Task CreateOrUpdateArea(CreateAreaInput input)
+        public async Task CreateOrUpdateArea(CreateOrUpdateAreaDto input)
         {
-            var areainput = new Area() { AreaId = input.AreaId,AreaName =input.AreaName,AreaDescription = input.AreaDescription,TenantId= AbpSession.TenantId};
+            if (!input.AreaEdit.Id.HasValue)
+            {
+                await CreateAreaAsync(input);
+            }
+            else
+            {
+                await UpdateAreaAsync(input);
+            }
+        }
+        public async Task UpdateAreaAsync(CreateOrUpdateAreaDto input)
+        {
+            
+            var areainput = new Area() { Id = input.AreaEdit.Id.Value, AreaId = input.AreaEdit.AreaId, AreaName = input.AreaEdit.AreaName, AreaDescription = input.AreaEdit.AreaDescription, TenantId = AbpSession.TenantId };
+            
+            await _areaManager.UpdateAreaAsync(areainput);
+        }
+        public async Task CreateAreaAsync(CreateOrUpdateAreaDto input)
+        {
+            var areainput = new Area() { AreaId = input.AreaEdit.AreaId,AreaName =input.AreaEdit.AreaName,AreaDescription = input.AreaEdit.AreaDescription,TenantId= AbpSession.TenantId};
             //var area = ObjectMapper.Map<Area>(input);
             //var organizationUnit = new Area(input.AreaId,inpu);
-            Logger.Info("Creating a new area with description: " + input.AreaId+input.ToString());
+            //Logger.Info("Creating a new area with description: " + input.AreaEdit.AreaId+input.ToString());
 
             await _areaManager.CreateAreaAsync(areainput);
         }
@@ -48,5 +66,27 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
                 ObjectMapper.Map<List<AreaListDto>>(editions)
                 );
         }
+        public async Task<GetAreaForEditOutput> GetAreaForEdit(NullableIdDto input)
+        {
+            AreaListDto AreaEditDto;
+
+            if (input.Id.HasValue) 
+            {
+                var AreaDto = await _areaManager.GetAreaAsync(input.Id.Value);
+                AreaEditDto = ObjectMapper.Map<AreaListDto>(AreaDto);
+            }
+            else
+            {
+                AreaEditDto = new AreaListDto();
+            }
+
+            return new GetAreaForEditOutput
+            {
+                AreaEdit = AreaEditDto,
+                
+            };
+        }
+
+        
     }
 }

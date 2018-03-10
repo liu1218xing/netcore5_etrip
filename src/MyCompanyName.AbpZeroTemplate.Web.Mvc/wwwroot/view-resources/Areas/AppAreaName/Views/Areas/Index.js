@@ -12,9 +12,9 @@
         };
 
         var _createModal = new app.ModalManager({
-            viewUrl: abp.appPath + 'AppAreaName/Areas/CreateModal',
-            scriptUrl: abp.appPath + 'view-resources/Areas/AppAreaName/Views/Areas/_CreateModal.js',
-            modalClass: 'CreateAreaModal'
+            viewUrl: abp.appPath + 'AppAreaName/Areas/CreateOrEditModal',
+            scriptUrl: abp.appPath + 'view-resources/Areas/AppAreaName/Views/Areas/_CreateOrEditModal.js',
+            modalClass: 'CreateOrEditAreaModal'
         });
 
         function deleteArea(Area) {
@@ -37,7 +37,7 @@
             _createModal.open();
         });
 
-        abp.event.on('app.createAreaModalSaved', function () {
+        abp.event.on('app.createOrEditAreaModalSaved', function () {
             getAreas();
         });
         abp.log.debug("-----------------allarea---");

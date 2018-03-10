@@ -14,5 +14,7 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
         Task UpdateAreaAsync(Area area);
         Task DeleteAreaAsync(Area area);
         Task<List<Area>> GetAllAsync();
+        Task<Area> GetAreaAsync(int id);
+        //Task<Friendship> GetFriendshipOrNullAsync(UserIdentifier user, UserIdentifier probableFriend);
     }
 }

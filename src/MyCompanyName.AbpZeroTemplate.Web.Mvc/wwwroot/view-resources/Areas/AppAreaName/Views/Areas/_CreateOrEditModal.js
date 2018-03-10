@@ -1,6 +1,6 @@
 ﻿(function () {
-  
-    app.modals.CreateAreaModal = function () {
+
+    app.modals.CreateOrEditAreaModal = function () {
 
         var _modalManager;
         var _areaService = abp.services.app.area;
@@ -26,13 +26,13 @@
             abp.log.debug(area);
             abp.log.debug(_areaService);
             _modalManager.setBusy(true);
-            _areaService.createOrUpdateArea(
-                area
+            _areaService.createOrUpdateArea({
+                areaEdit: area
+            }
             ).done(function () {
                 abp.notify.info(app.localize('SavedSuccessfully'));
-                
                 _modalManager.close();
-                abp.event.trigger('app.createAreaModalSaved');
+                abp.event.trigger('app.createOrEditAreaModalSaved');
             }).always(function () {
                 _modalManager.setBusy(false);
             });

@@ -10,12 +10,16 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
 {
     public interface IAreaAppService : IApplicationService
     {
+        Task CreateOrUpdateArea(CreateOrUpdateAreaDto input);
+
         Task<ListResultDto<AreaListDto>> GetAreas();
 
         Task<ListResultDto<AreaListDto>> GetAllAreas();
-
-        Task CreateOrUpdateArea(CreateAreaInput input);
+        Task CreateAreaAsync(CreateOrUpdateAreaDto input);
+        Task UpdateAreaAsync(CreateOrUpdateAreaDto input);
+        //Task CreateOrUpdateArea(CreateAreaInput input);
 
         Task DeleteEdition(EntityDto input);
+        Task<GetAreaForEditOutput> GetAreaForEdit(NullableIdDto input);
     }
 }

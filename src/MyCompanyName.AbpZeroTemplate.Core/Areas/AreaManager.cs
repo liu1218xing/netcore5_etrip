@@ -34,6 +34,7 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
             var getarea = await _areaRepository.GetAsync(area.Id);
             await _areaRepository.UpdateAsync(getarea);
             await CurrentUnitOfWork.SaveChangesAsync();
+            
         }
         [UnitOfWork]
         public async Task DeleteAreaAsync(Area area)
@@ -42,7 +43,13 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
             await _areaRepository.DeleteAsync(getarea);
             await CurrentUnitOfWork.SaveChangesAsync();
         }
-
+        [UnitOfWork]
+        public async Task<Area> GetAreaAsync(int id)
+        {
+            return await _areaRepository.GetAsync(id); 
+        }
         
+
+
     }
 }

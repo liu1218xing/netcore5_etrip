@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Abp.Application.Services.Dto;
 using Abp.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyCompanyName.AbpZeroTemplate.Areas;
@@ -24,10 +25,20 @@ namespace MyCompanyName.AbpZeroTemplate.Web.Mvc.Areas.AppAreaName.Controllers
         {
             return View();
         }
+
+        //public PartialViewResult CreateModal(long? parentAreaId)
+        //{
+        //    return PartialView("_CreateModal", new CreateOrEditAreaModalViewModel());
+        //}
         [AbpMvcAuthorize(AppPermissions.Pages_Administration_Areas_Create)]
-        public PartialViewResult CreateModal(long? parentAreaId)
+        public async Task<PartialViewResult> CreateOrEditModal(int? id)
         {
-            return PartialView("_CreateModal", new CreateAreaModalViewModel(parentAreaId));
+            var output = await _areaAppService.GetAreaForEdit(new NullableIdDto { Id = id });
+            
+            var viewModel = new CreateOrEditAreaModalViewModel(output);
+
+            return PartialView("_CreateOrEditModal", viewModel);
         }
+
     }
 }
