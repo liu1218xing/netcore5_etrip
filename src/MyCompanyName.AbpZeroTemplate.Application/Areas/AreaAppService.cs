@@ -135,12 +135,12 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
             var areaall = await _areaManager.GetAllAsync();
             if (areaall != null)
             {
-                return "false";
+                return "true";
                 //return input.AreaId == area.AreaId ? false : true;
             }
             else
             {
-                return "false";
+                return "true";
             }
             //var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
             //var AreaDto = await _areaManager.GetSingleAreaAsync(input.Id.Value);

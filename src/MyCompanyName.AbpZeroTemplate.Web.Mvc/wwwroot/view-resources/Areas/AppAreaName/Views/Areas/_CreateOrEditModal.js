@@ -59,6 +59,18 @@
                     
                      AreaName: {
                         required: true
+                    }, AreaId: {
+                        required: true,
+                        remote: ({
+                            url: abp.appPath + "api/services/app/Area/GetValidateAreaIdString",     //后台处理程序
+                            type: "get",                   //数据发送方式
+                            dataType: "json",              //接受数据格式   
+                            data: {                        //要传递的数据
+                                AreaId: function () {
+                                    return $("#AreaId").val();
+                                }
+                            }
+                        }).result
                     }
                     
                 },
