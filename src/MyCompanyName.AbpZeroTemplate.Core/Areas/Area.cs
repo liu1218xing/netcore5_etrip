@@ -14,7 +14,7 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
     public class Area : FullAuditedEntity, IMayHaveTenant
     {
         [Required]
-        public long AreaId { get; set; }
+        public string AreaId { get; set; }
         [Required]
         public string AreaName { get; set; }
         public string AreaDescription { get; set; }

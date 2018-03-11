@@ -10,7 +10,7 @@ namespace MyCompanyName.AbpZeroTemplate.Areas.Dto
     {
         public int? Id { get; set; }
         [Required]
-        public long AreaId { get; set; }
+        public string AreaId { get; set; }
         [Required]
         public string AreaName { get; set; }
         public string AreaDescription { get; set; }

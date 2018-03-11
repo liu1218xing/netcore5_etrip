@@ -38,12 +38,13 @@
         abp.event.on('app.createOrEditSimpleTaskModalSaved', function () {
             getSimpleTasks();
         });
-        abp.log.debug(_simpleTaskService.getAllTasks);
+        //abp.log.debug(_simpleTaskService.getAllTasks);
+        abp.log.debug(_simpleTaskService);
         //$.ajax({
-        //    url: abp.appPath + _simpleTaskService.getAllTasks.url,
+        //    url: abp.appPath + "api/services/app/SimpleTask/GetAllTasks",
         //    type: 'GET'
         //}).done(function (data) {
-           
+        //    abp.log.debug("--------------------");
         //    abp.log.debug(data);
         //    });
 

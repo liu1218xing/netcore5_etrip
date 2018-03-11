@@ -18,8 +18,11 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
         Task CreateAreaAsync(CreateOrUpdateAreaDto input);
         Task UpdateAreaAsync(CreateOrUpdateAreaDto input);
         //Task CreateOrUpdateArea(CreateAreaInput input);
-
+        Task<bool> ValidAreaIdOrName(GetAreaInput input);
+        Task<bool> GetValidateAreaId(GetAreaInputS input);
+        Task<string> GetValidateAreaIdString(GetAreaInputS input);
         Task DeleteEdition(EntityDto input);
         Task<GetAreaForEditOutput> GetAreaForEdit(NullableIdDto input);
+
     }
 }

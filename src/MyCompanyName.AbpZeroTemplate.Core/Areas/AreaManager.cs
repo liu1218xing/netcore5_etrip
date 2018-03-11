@@ -3,6 +3,7 @@ using Abp.Domain.Uow;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,10 +29,22 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
         {
             return await _areaRepository.GetAllListAsync();
         }
+        //public async Task<Area> GetSingleAreaAsync(Area area)
+        //{
+        //    if (area.AreaId.HasValue)
+        //    {
+
+        //    }
+        //}
         [UnitOfWork]
         public async Task UpdateAreaAsync(Area area)
         {
             var getarea = await _areaRepository.GetAsync(area.Id);
+
+            //ObjectMapper.Map(area, getarea);
+            getarea.AreaId = area.AreaId;
+            getarea.AreaName = area.AreaName;
+            getarea.AreaDescription = area.AreaDescription;
             await _areaRepository.UpdateAsync(getarea);
             await CurrentUnitOfWork.SaveChangesAsync();
             
@@ -40,6 +53,8 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
         public async Task DeleteAreaAsync(Area area)
         {
             var getarea = await _areaRepository.GetAsync(area.Id);
+            
+            
             await _areaRepository.DeleteAsync(getarea);
             await CurrentUnitOfWork.SaveChangesAsync();
         }
@@ -48,8 +63,13 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
         {
             return await _areaRepository.GetAsync(id); 
         }
-        
 
-
+        public async Task<Area> GetSingleAreaAsync(Area area)
+        {
+            Expression<Func<Area, bool>> predicate = null;
+            predicate = f => f.AreaId == area.AreaId || f.AreaName == area.AreaName;
+            return await _areaRepository.SingleAsync(predicate);
+            
+        }
     }
 }

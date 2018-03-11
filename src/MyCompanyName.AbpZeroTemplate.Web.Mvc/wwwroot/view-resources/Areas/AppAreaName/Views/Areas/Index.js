@@ -1,7 +1,7 @@
 ﻿//areas
 (function () {
     $(function () {
-
+        
         var _$AreasTable = $('#AreasTable');
         var _AreaService = abp.services.app.area;
 
@@ -16,7 +16,23 @@
             scriptUrl: abp.appPath + 'view-resources/Areas/AppAreaName/Views/Areas/_CreateOrEditModal.js',
             modalClass: 'CreateOrEditAreaModal'
         });
-
+        //$.ajax({
+        //    url: "api/services/app/Area/validAreaIdOrNameS",
+        //    type: 'GET',
+        //    data: {
+        //        AreaId="440000"
+        //    }
+        //}).done(function (data) {
+        //    abp.log.debug("--------------------");
+        //    abp.log.debug(data);
+        //});
+        $.ajax({
+            url: abp.appPath + "api/services/app/SimpleTask/GetAllTasks",
+            type: 'GET'
+        }).done(function (data) {
+            abp.log.debug("--------------------");
+            abp.log.debug(data);
+            });
         function deleteArea(Area) {
             abp.message.confirm(
                 app.localize('AreaDeleteWarningMessage', Area.areaName),
