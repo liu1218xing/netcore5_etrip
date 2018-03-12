@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
 using Abp.Domain.Repositories;
+using Abp.Web.Models;
 using Castle.Core.Logging;
 using MyCompanyName.AbpZeroTemplate.Areas.Dto;
 
@@ -90,15 +91,18 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
             };
         }
 
-        public async Task<bool> ValidAreaIdOrName(GetAreaInput input)
+        public async Task<bool> GetValidAreaIdOrName(GetAreaInput input)
         {
-           
-            Expression<Func<Area, bool>> areaExpress = null;
-            areaExpress = f => f.AreaId == input.AreaEdit.AreaId || f.AreaName == input.AreaEdit.AreaName;
-            var area = await _areaRepository.SingleAsync(areaExpress);
-            if(area != null)
+
+            //Expression<Func<Area, bool>> areaExpress = null;
+            //areaExpress = f => f.AreaId == input.AreaEdit.AreaId || f.AreaName == input.AreaEdit.AreaName;
+            //var area = await _areaRepository.SingleAsync(areaExpress);
+            var area = await _areaManager.GetAllAsync();
+            //var area = (await _areaManager.GetAllAsync())
+            //    .FirstOrDefault(a=>a.AreaId == input.AreaEdit.AreaId || a.AreaName == input.AreaEdit.AreaName);
+            if (area != null)
             {
-                return input.AreaEdit.Id > 0 && input.AreaEdit.Id == area.Id ? true : false;
+                return false;
             }
             else
             {
@@ -108,10 +112,11 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
             //var AreaDto = await _areaManager.GetSingleAreaAsync(input.Id.Value);
             //throw new NotImplementedException();
         }
+        [DontWrapResult]
         public async Task<bool> GetValidateAreaId(GetAreaInputS input)
         {
-            Expression<Func<Area, bool>> areaExpress = null;
-            areaExpress = f => f.AreaId == input.AreaId;
+            //Expression<Func<Area, bool>> areaExpress = null;
+            //areaExpress = f => f.AreaId == input.AreaId;
             //var area = await _areaRepository.SingleAsync(areaExpress);
             var areaall = await _areaManager.GetAllAsync();
             if (areaall != null)
@@ -127,6 +132,7 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
             //var AreaDto = await _areaManager.GetSingleAreaAsync(input.Id.Value);
             //throw new NotImplementedException();
         }
+        [DontWrapResult]
         public async Task<string> GetValidateAreaIdString(GetAreaInputS input)
         {
             Expression<Func<Area, bool>> areaExpress = null;
@@ -135,12 +141,12 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
             var areaall = await _areaManager.GetAllAsync();
             if (areaall != null)
             {
-                return "true";
+                return "false";
                 //return input.AreaId == area.AreaId ? false : true;
             }
             else
             {
-                return "true";
+                return "false";
             }
             //var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
             //var AreaDto = await _areaManager.GetSingleAreaAsync(input.Id.Value);

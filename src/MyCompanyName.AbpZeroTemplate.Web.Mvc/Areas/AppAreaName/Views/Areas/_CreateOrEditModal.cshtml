@@ -6,7 +6,7 @@
 @model CreateOrEditAreaModalViewModel
 @Html.Partial("~/Areas/AppAreaName/Views/Common/Modals/_ModalHeader.cshtml", new ModalHeaderViewModel(L("CreateNewArea")))
 <div class="modal-body">
-    <form name="AreaForm" role="form" novalidate class="form-validation">
+    <form name="AreaForm" role="form" novalidate class="form-validation" id="AreaForm">
         <input type="hidden" name="Id" value="@Model.AreaEdit.Id" />
         <div class="form-group">
             <label>@L("AreaId")</label>

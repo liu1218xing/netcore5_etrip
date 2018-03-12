@@ -23,56 +23,70 @@
             //    abp.log.debug("--------------------");
             //    abp.log.debug(data);
             //});
-            $.ajax({
-                url: abp.appPath + "api/services/app/Area/GetValidateAreaIdString",
-                type: 'GET',
-                dataType: "json",
-                data: {                        //要传递的数据
-                    AreaId: function () {
-                        return "440000";
-                    }
-                }
-            }).done(function (data) {
-                abp.log.debug("--------------------");
-                abp.log.debug(data.result);
-            });
-            
-            //_areaService.validAreaIdOrNameS({
-            //    AreaId: "440000"
-            //}
-            //).done(function (data) {
+            //$.ajax({
+            //    url: abp.appPath + "api/services/app/Area/GetValidateAreaId",
+            //    type: 'GET',
+            //    dataType: "json",
+            //    data: {                        //要传递的数据
+            //        AreaId: function () {
+            //            return "440000";
+            //        }
+            //    }
+            //}).done(function (data) {
+            //    abp.log.debug("--------------------");
             //    abp.log.debug(data);
+            //});
+            //abp.log.debug("--------3333333333333------------");
+            //abp.log.debug(_$form.serializeFormToObject());
+            //$.ajax({
+            //    url: abp.appPath + "api/services/app/Area/GetValidAreaIdOrName",
+            //    type: 'GET',
+            //    dataType: "json",
+            //    data: {                        //要传递的数据
+            //        AreaEdit: function () {
+            //            return _$form.serializeFormToObject();
+            //        }
+            //    }
+            //}).done(function (data) {
+            //    abp.log.debug("--------------------");
+            //    abp.log.debug(data.result);
             //});
 
             //var areaValidate = _$form.serializeFormToObject();
-            //_areaService.validAreaIdOrName({
+            //abp.log.debug(areaValidate);
+            //_areaService.getValidAreaIdOrName({
             //    areaEdit: areaValidate
             //}).done(function (data) {
             //    abp.log.debug(data);
-            //})
+            //    });
+
             
+            //abp.log.debug(areaValidate);
+            //_areaService.getValidateAreaId({
+            //    areaId: "440000"
+            //}).done(function (data) {
+            //    abp.log.debug(data);
+            //});
 
             //验证表单
             
             _$form.validate({
                 rules: {
-                    
-                     AreaName: {
+                    AreaName: {
                         required: true
                     }, AreaId: {
                         required: true,
-                        remote: ({
-                            url: abp.appPath + "api/services/app/Area/GetValidateAreaIdString",     //后台处理程序
+                        remote: {
+                            url: abp.appPath + "api/services/app/Area/GetValidAreaIdOrName",     //后台处理程序
                             type: "get",                   //数据发送方式
                             dataType: "json",              //接受数据格式   
                             data: {                        //要传递的数据
-                                AreaId: function () {
-                                    return $("#AreaId").val();
+                                AreaEdit: function () {
+                                    return _$form.serializeFormToObject();
                                 }
                             }
-                        }).result
+                        }
                     }
-                    
                 },
                 messages: {
                     
