@@ -139,6 +139,7 @@ namespace MyCompanyName.AbpZeroTemplate
             //area
             configuration.CreateMap<Area, AreaListDto>();
             configuration.CreateMap<Area, CreateAreaInput>();
+            configuration.CreateMap<AreaEditDto, Area>().ReverseMap();
         }
     }
 }

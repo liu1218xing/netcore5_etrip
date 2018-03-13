@@ -6,6 +6,6 @@ namespace MyCompanyName.AbpZeroTemplate.Areas.Dto
 {
     public class GetAreaForEditOutput
     {
-        public AreaListDto AreaEdit { get; set; }
+        public AreaEditDto AreaEdit { get; set; }
     }
 }

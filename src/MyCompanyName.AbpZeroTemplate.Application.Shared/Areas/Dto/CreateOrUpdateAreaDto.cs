@@ -8,6 +8,6 @@ namespace MyCompanyName.AbpZeroTemplate.Areas.Dto
      public class CreateOrUpdateAreaDto
     {
         
-        public AreaListDto AreaEdit { get; set; }
+        public AreaEditDto AreaEdit { get; set; }
     }
 }

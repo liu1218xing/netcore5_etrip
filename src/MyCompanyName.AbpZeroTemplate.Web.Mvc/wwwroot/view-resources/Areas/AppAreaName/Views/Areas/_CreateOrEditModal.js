@@ -75,24 +75,26 @@
                     AreaName: {
                         required: true
                     }, AreaId: {
-                        required: true,
-                        remote: {
-                            url: abp.appPath + "api/services/app/Area/GetValidAreaIdOrName",     //后台处理程序
-                            type: "get",                   //数据发送方式
-                            dataType: "json",              //接受数据格式   
-                            data: {                        //要传递的数据
-                                AreaEdit: function () {
-                                    return _$form.serializeFormToObject();
-                                }
-                            }
-                        }
+                        required: true
+                        //,
+                        //remote: {
+                        //    url: abp.appPath + "api/services/app/Area/GetValidAreaIdOrName",     //后台处理程序
+                        //    type: "get",                   //数据发送方式
+                        //    dataType: "json",              //接受数据格式   
+                        //    data: {                        //要传递的数据
+                        //        AreaEdit: function () {
+                        //            return _$form.serializeFormToObject();
+                        //        }
+                        //    }
+                        //}
                     }
                 },
                 messages: {
                     
                     AreaId: {
-                        required: "必填",
-                        remote: "该用户名已存在！"
+                        required: "必填"
+                        //,
+                        //remote: "该用户名已存在！"
                     }, AreaName: {
                         required: "必填"
                     }

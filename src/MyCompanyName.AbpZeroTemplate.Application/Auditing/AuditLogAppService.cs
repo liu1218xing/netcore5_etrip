@@ -79,12 +79,13 @@ namespace MyCompanyName.AbpZeroTemplate.Auditing
 
         private IQueryable<AuditLogAndUser> CreateAuditLogAndUsersQuery(GetAuditLogsInput input)
         {
+            
             var query = from auditLog in _auditLogRepository.GetAll()
                 join user in _userRepository.GetAll() on auditLog.UserId equals user.Id into userJoin
                 from joinedUser in userJoin.DefaultIfEmpty()
                 where auditLog.ExecutionTime >= input.StartDate && auditLog.ExecutionTime <= input.EndDate
                 select new AuditLogAndUser { AuditLog = auditLog, User = joinedUser };
-
+            
             query = query
                 .WhereIf(!input.UserName.IsNullOrWhiteSpace(), item => item.User.UserName.Contains(input.UserName))
                 .WhereIf(!input.ServiceName.IsNullOrWhiteSpace(), item => item.AuditLog.ServiceName.Contains(input.ServiceName))

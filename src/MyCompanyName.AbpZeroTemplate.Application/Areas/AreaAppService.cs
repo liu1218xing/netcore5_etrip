@@ -5,9 +5,14 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Abp.Application.Services.Dto;
+using System.Linq.Dynamic.Core;
 using Abp.Domain.Repositories;
+using Abp.Extensions;
+using Abp.Linq.Extensions;
+using Abp.UI;
 using Abp.Web.Models;
 using Castle.Core.Logging;
+using Microsoft.EntityFrameworkCore;
 using MyCompanyName.AbpZeroTemplate.Areas.Dto;
 
 namespace MyCompanyName.AbpZeroTemplate.Areas
@@ -38,7 +43,8 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
         {
             
             var areainput = new Area() { Id = input.AreaEdit.Id.Value, AreaId = input.AreaEdit.AreaId, AreaName = input.AreaEdit.AreaName, AreaDescription = input.AreaEdit.AreaDescription, TenantId = AbpSession.TenantId };
-            
+            await CheckAreaIdIfAlreadyExists(input.AreaEdit.AreaId, input.AreaEdit.Id);
+            await CheckAreaNameIfAlreadyExists(input.AreaEdit.AreaName, input.AreaEdit.Id);
             await _areaManager.UpdateAreaAsync(areainput);
         }
         public async Task CreateAreaAsync(CreateOrUpdateAreaDto input)
@@ -47,13 +53,15 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
             //var area = ObjectMapper.Map<Area>(input);
             //var organizationUnit = new Area(input.AreaId,inpu);
             //Logger.Info("Creating a new area with description: " + input.AreaEdit.AreaId+input.ToString());
-
+            await CheckAreaIdIfAlreadyExists(input.AreaEdit.AreaId);
+            await CheckAreaNameIfAlreadyExists(input.AreaEdit.AreaName);
             await _areaManager.CreateAreaAsync(areainput);
         }
 
-        public Task DeleteEdition(EntityDto input)
+        public async Task DeleteArea(EntityDto input)
         {
-            throw new NotImplementedException();
+            var area = await _areaManager.GetAreaAsync(input.Id);
+            await _areaManager.DeleteAreaAsync(area);
         }
 
         public async Task<ListResultDto<AreaListDto>> GetAreas()
@@ -72,16 +80,16 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
         }
         public async Task<GetAreaForEditOutput> GetAreaForEdit(NullableIdDto input)
         {
-            AreaListDto AreaEditDto;
+            AreaEditDto AreaEditDto;
 
             if (input.Id.HasValue) 
             {
                 var AreaDto = await _areaManager.GetAreaAsync(input.Id.Value);
-                AreaEditDto = ObjectMapper.Map<AreaListDto>(AreaDto);
+                AreaEditDto = ObjectMapper.Map<AreaEditDto>(AreaDto);
             }
             else
             {
-                AreaEditDto = new AreaListDto();
+                AreaEditDto = new AreaEditDto();
             }
 
             return new GetAreaForEditOutput
@@ -151,6 +159,76 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
             //var userListDtos = ObjectMapper.Map<List<UserListDto>>(users);
             //var AreaDto = await _areaManager.GetSingleAreaAsync(input.Id.Value);
             //throw new NotImplementedException();
+        }
+
+        private async Task CheckAreaIdIfAlreadyExists(string areaid, int? expectedId = null)
+        {
+            //var existingAreas = _areaRepository.GetAll().WhereIf(!areaid.IsNullOrWhiteSpace(),a=>a.AreaId ==areaid);
+            
+            var existingArea = (await _areaManager.GetAllAsync())
+                    .FirstOrDefault(a => a.AreaId == areaid);
+            
+            if (existingArea == null)
+            {
+                return;
+            }
+            
+            if (expectedId != null && existingArea.Id == expectedId.Value)
+            {
+                return;
+            }
+
+            throw new UserFriendlyException(L("ThisAreaIdAlreadyExists"));
+        }
+
+        private async Task CheckAreaNameIfAlreadyExists(string areaName, int? expectedId = null)
+        {
+
+            var existingArea = (await _areaManager.GetAllAsync())
+                    .FirstOrDefault(a => a.AreaName == areaName);
+
+            if (existingArea == null)
+            {
+                return;
+            }
+
+            if (expectedId != null && existingArea.Id == expectedId.Value)
+            {
+                return;
+            }
+
+            throw new UserFriendlyException(L("ThisAreaNameAlreadyExists"));
+        }
+
+        public async Task<PagedResultDto<AreaListDto>> GetAreasFilter(GetAreaInput input)
+        {
+            var query = _areaRepository.GetAll().
+                WhereIf(
+                input.Filter.IsNullOrWhiteSpace(),
+                a => a.AreaId.Contains(input.Filter) ||
+                a.AreaName.Contains(input.Filter) ||
+                a.AreaDescription.Contains(input.Filter)
+                );
+            var areas = await query
+                .OrderBy(input.Sorting)
+                .PageBy(input)
+                .ToListAsync();
+            var areaCount = await query.CountAsync();
+            var areaListDtos = ObjectMapper.Map<List<AreaListDto>>(areas);
+            return new PagedResultDto<AreaListDto>(
+                areaCount,
+                areaListDtos
+                );
+        }
+        private IQueryable<AreaListDto> CreateAreaListQuery(GetAreaInput input)
+        {
+            var query = from area in _areaRepository.GetAll()
+                        select new AreaListDto { AreaId = area.AreaId,AreaName =area.AreaName };
+            query.WhereIf(input.Filter.IsNullOrWhiteSpace(), a => a.AreaId.Contains(input.Filter) ||
+             a.AreaName.Contains(input.Filter) ||
+             a.AreaDescription.Contains(input.Filter));
+            return query; 
+
         }
     }
 }

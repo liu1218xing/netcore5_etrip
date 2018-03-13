@@ -93,6 +93,7 @@
                                     return _permissions.delete;
                                 },
                                 action: function (data) {
+                                    abp.log.debug(data.record);
                                     deleteArea(data.record);
                                 }
                             }

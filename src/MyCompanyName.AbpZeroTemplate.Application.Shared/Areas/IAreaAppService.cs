@@ -13,6 +13,7 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
         Task CreateOrUpdateArea(CreateOrUpdateAreaDto input);
 
         Task<ListResultDto<AreaListDto>> GetAreas();
+        Task<PagedResultDto<AreaListDto>> GetAreasFilter(GetAreaInput input);
 
         Task<ListResultDto<AreaListDto>> GetAllAreas();
         Task CreateAreaAsync(CreateOrUpdateAreaDto input);
@@ -21,7 +22,7 @@ namespace MyCompanyName.AbpZeroTemplate.Areas
         Task<bool> GetValidAreaIdOrName(GetAreaInput input);
         Task<bool> GetValidateAreaId(GetAreaInputS input);
         Task<string> GetValidateAreaIdString(GetAreaInputS input);
-        Task DeleteEdition(EntityDto input);
+        Task DeleteArea(EntityDto input);
         Task<GetAreaForEditOutput> GetAreaForEdit(NullableIdDto input);
 
     }
